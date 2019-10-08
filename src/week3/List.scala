@@ -1,7 +1,7 @@
 package week3
 
 
-  abstract class List[+T] {
+  trait List[+T] {
     def isEmpty: Boolean
     def head: T
     def tail: List[T]
@@ -29,7 +29,7 @@ object List  {
 
   def singleton[T](elem: T) = new Cons[T](elem, new Nil[T])
 
-  def nth(elem: Int, aList: List[T]): T  = {
+  def nth[T](elem: Int, aList: List[T]): T  = {
     if (aList.isEmpty) throw new IndexOutOfBoundsException("outside list index")
     else if (elem == 0) aList.head
     else nth(elem-1, aList.tail)

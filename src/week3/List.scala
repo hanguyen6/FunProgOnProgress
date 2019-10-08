@@ -1,10 +1,11 @@
 package week3
 
 
-  trait List[+T] {
+  abstract class List[+T] {
     def isEmpty: Boolean
     def head: T
     def tail: List[T]
+
   }
 
   class Cons[T](val head:T, val tail: List[T]) extends List[T] {
@@ -21,6 +22,7 @@ package week3
 
 
 object List  {
+
   def apply[T](x1: T, x2: T): List[T] = new Cons[T](x1, new Cons[T](x2, new Nil))
   def apply[T](x1: T): List[T] = new Cons[T](x1, new Nil[T])
   def apply[T]: List[T] = new Nil[T]
@@ -32,5 +34,33 @@ object List  {
     else if (elem == 0) aList.head
     else nth(elem-1, aList.tail)
   }
+
+  def init[T](xs: List[T]):  List[T] = xs match  {
+    case List() => throw new NoSuchElementException("empty list")
+    case List(x) => List(x)
+    case y :: ys => y::init[T](ys)
+  }
+
+  def last[T](xs: List[T]): T = xs match {
+    case List() => throw new NoSuchElementException("empty list")
+    case List(x) => x
+    case x :: ys => last[T](ys)
+  }
+
+  def concat[T](xs: List[T], ys: List[T]): List[T] = xs match {
+    case List() => ys
+    case z :: zs => z :: concat(zs, ys)
+  }
+
+  def reverse[T](xs: List[T]): List[T] = xs match  {
+    case List() => xs
+    case y :: ys => reverse(ys) ++ List(y)
+  }
+
+  def removeAt[T](n: Int, xs: List[T]) = xs match  {
+
+  }
+
+
 }
 

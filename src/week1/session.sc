@@ -1,4 +1,4 @@
-object session {
+object factorialRec {
 
   def factorial (n: Int): Int = {
     def loop(acc: Int, n: Int): Int = {

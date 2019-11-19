@@ -24,8 +24,8 @@ object  session {
   }
 
 
-
-
+  val x = List(10,1,2,4,5,8)
+  x.sorted
 
   iSort(List(-3,4,2))
   qSort(Array(-3,4,-7, 8,4,3))

@@ -18,6 +18,7 @@ object HigherOrderFun {
     }
   }
 
+
   // Running length encoding
   def encode[T](xs: List[T]): List[(T, Int)] = xs match  {
     case Nil => Nil
@@ -40,15 +41,14 @@ object HigherOrderFun {
     (xs foldRight 0)( ??? )
 
 
-  def reduceLeft[T,U](xs: List[T], op: (T, U) => U): U = xs match  {
+  def reduceLeft[T,T](xs: List[T], op: (T, T) => T): T = xs match  {
     case Nil => throw new Error("Nil.reduceLeft")
-    case x :: Nil => x
-    case x :: xs1 =>  foldLeft(xs1, x)(op)
+    case x :: xs1 => (xs1 foldLeft x) (op)
   }
 
   def foldLeft[U,T](z: U)(xs: List[T], op: (U,T) => U): U = xs match  {
     case Nil => z
-    case x :: xs1 => foldLeft(z)(xs1, op(z, x))
+    case x :: xs1 => op(z, x) :: foldLeft(z)(xs1, op)
   }
 
   val nums = List (1,-3, 4,5)

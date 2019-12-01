@@ -3,6 +3,7 @@ object Sorting {
   /**
     * Selection Sort: Find the minimum value from the array
     * Put the value to top of the list
+    * O(n^2)
     * @param a : unsorted Array
     * @return sorted Array
     */
@@ -39,9 +40,12 @@ object Sorting {
 
   /**
     * Insertion Sort: for each element, put the element to the sorted array on the left
+    * best case: O(n) when putting element to the right most of sorted array
+    * worst case  / random : O(n^2): when the array in reverse order and every elements need to be slide to the right
     * @param a
     * @return
     */
+
   def iSort(a: Array[Int]): Array[Int] = {
     def insert(value: Int, sortedArray: Array[Int], rightIndex: Int): Unit = {
       if (sortedArray.isEmpty) Array(value)
@@ -54,7 +58,7 @@ object Sorting {
     }
 
     for (idx <- 0 until a.size) {
-      println(s"insert ${a(idx)}")
+      //println(s"insert ${a(idx)}")
       insert(a(idx),  a, idx)
     }
 

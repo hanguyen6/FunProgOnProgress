@@ -7,32 +7,89 @@ val xs = y.toList
 iSort(y)
 iSortList(xs)
 
+val z = Array(1,10, 3, 2,4,6,2,3)
+mSort(z)
+
+val t = Array(1,10, 3, 2,4,6,2,3)
+qSort(t)
+
 object Sorting {
+
+  /**
+    * Quick Sort: a divide , conquer & combine problem
+    * In-place sorting
+    * - Divide the array into two halves based on a pivot point
+    *     - left sub array: elements smaller than pivot
+    *     - right sub array: elements larger than pivot
+    *  - Conquer by sorting sub arrays using qSort
+    *     base case: sub array is sorted when having <= 1 element
+    *  - Combine two sub arrays with pivot between
+    *  Time Complexity:
+    *    - linear time partitioning O(n)
+    *    - worse case: un-balanced partitioning: one partition having no element while the other having the rest
+    *           - total O(n) time for each level for two halves
+    *           - n levels
+    *           => O(n^2)
+    *    - best case: balanced partitioning : two halves having similar elements
+    *         - total O(n) time for each level for two halves
+    *         - log2(n) levels
+    *         => O(log2(n) * n)
+    *    - average running time:
+    *
+    * @param a
+    * @return
+    */
+  def qSort(a: Array[Int]): Array[Int]  = {
+    if (a.size <=1) a
+    else {
+      val pivot = a(a.size-1)
+      val lowHalves = a.filter(pivot >)
+      val highHalves = a.filter(pivot <)
+      println(s"with pivot $pivot sorting two sub arrays: " +
+        s"low  [${lowHalves.mkString(",")}] & " +
+        s"high [${highHalves.mkString(",")}]")
+
+      val combine = Array.concat(qSort(lowHalves)
+                  ,a.filter(pivot==)
+                  ,qSort(highHalves))
+      println(s"combined sorted array: [${combine.mkString(",")}]")
+      combine
+    }
+  }
 
   /** Merge Sort: a divide-conquer-combine problem
     * Not-in-place sorting
-    * - Divide a array into halves
+    * - Divide a array into halves with equal size
     * - Sort sub arrays
     * - Combine two arrays
+    * Time Complexity: O(n * log2(n))
+    *   - total linear time merging 0(n) for each level for two halves
+    *   - log2(n) levels
     */
   def mSort(a: Array[Int]): Array[Int] = {
+      if (a.size >= 2) println(s"Sorting [${a.mkString(",")}] ...")
+
+    def combine(sortedA1: Array[Int], sortedA2: Array[Int]): Array[Int] = {
+      if (sortedA1.isEmpty) sortedA2
+        else if (sortedA2.isEmpty) sortedA1
+        else {
+          println(s"Combine 2 sorted sub arrays [${sortedA1.mkString(",")}] & [${sortedA2.mkString(",")}]")
+          sortedA1.head <= sortedA2.head match {
+            case true =>   Array(sortedA1.head) ++ combine(sortedA1.tail, sortedA2)
+            case false =>  Array(sortedA2.head) ++ combine(sortedA1, sortedA2.tail)
+          }
+
+        }
+      }
 
     if (a.size <=1) a
     else {
       val splitIdx = a.size /2
       val (lowHalves, rightHalves) =
-        (a.slice(0, splitIdx), a.slice(splitIdx+1, a.size))
+        (a.slice(0, splitIdx), a.slice(splitIdx, a.size))
+      println(s"Split [${a.mkString(",")}] into two sub arrays [${lowHalves.mkString(",")}] and [${rightHalves.mkString(" ")}] ")
+
       combine(mSort(lowHalves), mSort(rightHalves))
-
-      def combine(sortedA1: Array[Int], sortedA2: Array[Int]): Array[Int] = {
-        if (sortedA1.isEmpty) sortedA2
-        else if (sortedA2.isEmpty) sortedA1
-        else {
-           Array(sortedA1.head min sortedA2.head) ++
-        }
-      }
-
-
 
     }
   }

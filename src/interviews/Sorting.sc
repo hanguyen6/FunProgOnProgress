@@ -1,9 +1,19 @@
+import Sorting._
+val x = Array(1,10, 3, 2,4,6,2,3)
+sSort(x)
+
+val y = Array(1,10, 3, 2,4,6,2,3)
+val xs = y.toList
+iSort(y)
+iSortList(xs)
+
 object Sorting {
 
   /**
-    * Selection Sort: Find the minimum value from the array
+    * Selection Sort: in-place sorting
+    * Find the minimum value from the array
     * Put the value to top of the list
-    * O(n^2)
+    * Time complexity: O(n^2)
     * @param a : unsorted Array
     * @return sorted Array
     */
@@ -39,10 +49,14 @@ object Sorting {
   }
 
   /**
-    * Insertion Sort: for each element, put the element to the sorted array on the left
-    * best case: O(n) when putting element to the right most of sorted array
-    * worst case  / random : O(n^2): when the array in reverse order and every elements need to be slide to the right
-    * @param a
+    * Insertion Sort: in-place sorting
+    * Construct a sorted sub array starting from one element from the array
+    * Insert new element to the sorted array in the right place
+    *   -
+    * Time complexity:
+    * ** best case: O(n) when putting element to the right most of sorted array
+    * ** worst case  / random : O(n^2): when the array in reverse order and every elements need to be slide to the right
+    * @param a unsorted array
     * @return
     */
 
@@ -58,19 +72,31 @@ object Sorting {
     }
 
     for (idx <- 0 until a.size) {
-      //println(s"insert ${a(idx)}")
+      print(s"insert ${a(idx)} into [${a.slice(0,idx).mkString(",")}] --> ")
       insert(a(idx),  a, idx)
+      println(s"${a.mkString(" ")}")
     }
 
     a
   }
 
+  def iSortList(xs: List[Int]): List[Int] = {
+    xs match  {
+      case Nil => xs
+      case x :: xs1 => insert(x, iSortList(xs1))
+    }
+
+    def insert(x: Int, xs: List[Int]): List[Int] = {
+      xs match  {
+        case x1 :: xs1 => {
+          if (x < x1) x :: xs
+          else x1 :: insert(x, xs1)
+        }
+        case _ => x :: xs
+      }
+    }
+  }
+
 
 }
 
-import Sorting._
-val x = Array(1,10, 3, 2,4,6,2,3)
-sSort(x)
-
-val y = Array(1,10, 3, 2,4,6,2,3)
-iSort(y)

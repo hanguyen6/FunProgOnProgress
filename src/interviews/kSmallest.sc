@@ -7,7 +7,7 @@ object kSmallest {
   /**
    * Sort the list using mergeSort takes O(n*log(n)) time
    * Retrieve the k element take O(k) time if linked list and O(1) if arrayList
-   * => total time: O(n*log(n)) + O(k)
+   * => total time: O(n*log(n)) + O(k) ~ O(n*log(n))
    * @param x
    * @param k
    * @return
@@ -19,8 +19,9 @@ object kSmallest {
 
   /**
    * Using a max heap to keep k smallest number. Head is the k smallest element. Using O(k) memory
-   * Insert n elements takes O(n*log(k)) time due to each iteration from n element, insert into heap
+   * Insert n elements takes O(n*log(k)) time due to each iteration from n element, insert into heap (O(log(k))
    * Retrieve k smallest element take O(1) time
+   * => total O(n * log(k))
    *
    * @param x
    * @param k
@@ -44,6 +45,19 @@ object kSmallest {
     println(s"min heap of $k elements: ${heap.toString()}")
     heap.head
   }
+
+  /**
+   * partition around a pivot point into 2 sub arrays low, right -> (O(n))
+   * if low array has lo number < k number -> find (k-lo) number in high array
+   * else find k smallest number in low array
+   * => totaltime in average O(n) + O(n/2) + O(n/4) + ... ~ O(n)
+   * Choosing good pivot to split array in halves -> using median-of-median algrithm -> O(n) time
+   *
+   * @param x
+   * @param k
+   * @return
+   */
+  def kSmallestV3(x: Array[Int], k: Int): Int = ???
 
   val x = List(1,2345, 10, 2, 6,3,5, 3234,5656, 7,10, 340, 123, 345, 453)
 

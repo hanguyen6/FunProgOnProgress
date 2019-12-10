@@ -42,7 +42,8 @@ object Sorting {
   def qSort(a: Array[Int]): Array[Int]  = {
     if (a.size <=1) a
     else {
-      val pivot = a(a.size-1)
+      //val pivot = a(a.size-1)
+      val pivot = findPivot(a)
       val lowHalves = a.filter(pivot >)
       val highHalves = a.filter(pivot <)
       println(s"with pivot $pivot sorting two sub arrays: " +
@@ -55,6 +56,26 @@ object Sorting {
       println(s"combined sorted array: [${combine.mkString(",")}]")
       combine
     }
+  }
+
+  /**
+   * Find good pivot to separate array into halves -> O(n) time
+   * @param a
+   * @return
+   */
+  def findPivot(a: Array[Int]): Int = {
+    if (a.size <=5) {
+      val sortedA = a.sorted
+      sortedA(3)
+    } else {
+      def chunk(a: Array[Int], size: Int): List[Array[Int]] = ???
+      val chunks = chunk(a, 5)
+      val fullChunks = chunks.filter(chunk => chunk.size == 5 )
+      val sortedFullChunks: List[Array[Int]] = fullChunks.map(chunk => chunk.sorted)
+      val median_of_medians = sortedFullChunks.map(chunk => chunk(3))
+      findPivot(median_of_medians.toArray)
+    }
+
   }
 
   /** Merge Sort: a divide-conquer-combine problem
